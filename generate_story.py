@@ -1,20 +1,24 @@
 import json
-from datetime import datetime
 import random
+from datetime import datetime
 
-# List of bedtime story prompts
-prompts = [
-    "Sage and Mira discover a hidden underwater kingdom.",
-    "A magical unicorn grants Sage three wishes.",
-    "Sage and her pets go on an adventure to find a lost treasure.",
-    "Sage meets a talking dolphin who needs help solving a mystery.",
-    "A glowing butterfly leads Sage to an enchanted forest."
-]
+# Story elements
+characters = ["Sage", "Mira the Mermaid", "Snowpaws the cat", "Doobie the cat", "Emika, Buster, and Freya the Mastadors"]
+settings = ["a magical underwater kingdom", "a glowing enchanted forest", "a castle made of clouds", "a hidden cave of treasures"]
+conflicts = ["a lost magical pearl", "a riddle from a wise old turtle", "a spell that needs breaking", "a storm that separates them"]
+lessons = ["the power of kindness", "why listening is important", "how to be brave even when scared", "why teamwork makes everything better"]
 
-# Function to generate a new story
+# Generate a full bedtime story
 def generate_story():
-    prompt = random.choice(prompts)
-    story = f"""Once upon a time, {prompt} Sage used her kindness and courage to overcome challenges, learning an important lesson along the way. And so, another adventure came to a happy end."""
+    character = random.choice(characters)
+    setting = random.choice(settings)
+    conflict = random.choice(conflicts)
+    lesson = random.choice(lessons)
+
+    story = f"""One evening, {character} found themselves in {setting}. As they explored, they discovered {conflict}. 
+    With courage and the help of their friends, they worked together to find a solution. Along the way, they learned {lesson}.
+    By the end of their adventure, they had grown wiser and felt proud of what they had accomplished. And so, as the stars twinkled above, {character} drifted off to sleep, dreaming of the next great adventure."""
+
     return story
 
 # Load existing stories
@@ -35,4 +39,4 @@ stories[today] = {
 with open("stories.json", "w") as file:
     json.dump(stories, file, indent=4)
 
-print("New bedtime story generated and saved.")
+print("New detailed bedtime story generated and saved.")
