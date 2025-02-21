@@ -18,9 +18,6 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: Install Dependencies
-      run: pip install random
-
     - name: Generate New Story
       run: python generate_story.py
 
