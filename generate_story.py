@@ -3,21 +3,43 @@ import random
 from datetime import datetime
 
 # Story elements
-characters = ["Sage", "Mira the Mermaid", "Snowpaws the cat", "Doobie the cat", "Emika, Buster, and Freya the Mastadors"]
-settings = ["a magical underwater kingdom", "a glowing enchanted forest", "a castle made of clouds", "a hidden cave of treasures"]
-conflicts = ["a lost magical pearl", "a riddle from a wise old turtle", "a spell that needs breaking", "a storm that separates them"]
-lessons = ["the power of kindness", "why listening is important", "how to be brave even when scared", "why teamwork makes everything better"]
+characters = ["Sage", "Mira the Mermaid", "Grayson", "Jasper", "Dez", "Nina", 
+              "Aunty Cece", "Uncle Froggy", "Grandpa Pops", 
+              "Snowpaws the cat", "Shadow the cat", "Doobie the cat", 
+              "Emika the Mastador", "Buster the Mastador", "Freya the Mastador", 
+              "Belle the dog", "Rocko the dog", "Taco the Chihuahua"]
 
-# Generate a full bedtime story
+settings = ["a magical underwater kingdom", "a glowing enchanted forest", 
+            "a castle made of clouds", "a hidden cave of treasures", 
+            "a floating island in the sky", "a ship sailing across the stars"]
+
+conflicts = ["a lost magical pearl", "a riddle from a wise old turtle", 
+             "a spell that needs breaking", "a storm that separates them", 
+             "a treasure map with missing pieces", "a mischievous fairy causing trouble"]
+
+lessons = ["the power of kindness", "why listening is important", 
+           "how to be brave even when scared", "why teamwork makes everything better", 
+           "the magic of believing in yourself", "how patience can lead to great rewards"]
+
 def generate_story():
-    character = random.choice(characters)
+    # Select random elements
+    main_character = "Sage"
+    friends = random.sample(characters, 3)  # Pick 3 random companions
     setting = random.choice(settings)
     conflict = random.choice(conflicts)
     lesson = random.choice(lessons)
 
-    story = f"""One evening, {character} found themselves in {setting}. As they explored, they discovered {conflict}. 
-    With courage and the help of their friends, they worked together to find a solution. Along the way, they learned {lesson}.
-    By the end of their adventure, they had grown wiser and felt proud of what they had accomplished. And so, as the stars twinkled above, {character} drifted off to sleep, dreaming of the next great adventure."""
+    # Create a detailed story
+    story = f"""One evening, Sage and her friends {', '.join(friends)} found themselves in {setting}. 
+    The air was filled with magic as they explored the wonders around them. But just as they were marveling at the beauty, they discovered {conflict}. 
+    
+    "We have to work together!" Sage exclaimed. Her friends nodded, each bringing their own special skills to help solve the problem.
+    
+    As they ventured deeper, they met a wise old owl who gave them a clue, a playful dolphin who guided them through the currents, and a sparkling fairy who gifted them a magical key.
+    Through teamwork, courage, and determination, they unraveled the mystery and discovered {lesson}.
+    
+    As the adventure came to an end, Sage and her friends laughed, knowing that they had grown wiser and stronger. With hearts full of joy, they returned home, ready for the next magical journey. 
+    And so, under the twinkling stars, Sage drifted off to sleep, dreaming of even grander adventures to come."""
 
     return story
 
