@@ -1,4 +1,12 @@
 function loadStory() {
-    const storyContainer = document.getElementById("story-container");
-    storyContainer.innerHTML = "<h2>Tonight's Story</h2><p>Once upon a time, in a magical ocean, Sage and Mira the Mermaid...</p>";
+    fetch("stories.json")
+        .then(response => response.json())
+        .then(data => {
+            const today = new Date().toISOString().split('T')[0];
+            const story = data[today] || { title: "No Story Available", content: "Check back later for a new bedtime story!" };
+
+            document.getElementById("story-container").innerHTML = 
+                `<h2>${story.title}</h2><p>${story.content}</p>`;
+        })
+        .catch(error => console.error("Error loading story:", error));
 }
