@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Story Input Page</title>
+</head>
+<body>
+    <h1>Add a New Story</h1>
+    <form id="storyForm">
+        <label for="title">Story Title:</label><br>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="date">Story Date:</label><br>
+        <input type="text" id="date" name="date" value="" readonly><br><br>
+
+        <label for="content">Story Content:</label><br>
+        <textarea id="content" name="content" rows="10" cols="50" required></textarea><br><br>
+
+        <button type="button" onclick="submitStory()">Submit Story</button>
+    </form>
+
+    <script>
+        // Auto-fill today's date
+        document.getElementById('date').value = new Date().toISOString().split('T')[0];
+
+        async function submitStory() {
+            const title = document.getElementById('title').value;
+            const date = document.getElementById('date').value;
+            const content = document.getElementById('content').value;
+
+            if (!title || !content) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            try {
+                const response = await fetch('stories.json');
+                const data = await response.json();
+                
+                // Add new story to the array
+                data.stories.push({ title, date, content });
+
+                // Save updated JSON (for local testing)
+                const jsonData = JSON.stringify(data, null, 4);
+                download(jsonData, 'stories.json', 'application/json');
+                
+                alert('Story added successfully!');
+            } catch (error) {
+                console.error("Error updating stories.json:", error);
+                alert('Failed to add story.');
+            }
+        }
+
+        // Helper function to download updated JSON
+        function download(content, fileName, contentType) {
+            const a = document.createElement("a");
+            const file = new Blob([content], { type: contentType });
+            a.href = URL.createObjectURL(file);
+            a.download = fileName;
+            a.click();
+        }
+    </script>
+</body>
+</html>
