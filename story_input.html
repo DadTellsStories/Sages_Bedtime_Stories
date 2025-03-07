@@ -11,7 +11,7 @@
         <input type="text" id="title" name="title" required><br><br>
 
         <label for="date">Story Date:</label><br>
-        <input type="text" id="date" name="date" value="" readonly><br><br>
+        <input type="text" id="date" name="date"><br><br>
 
         <label for="content">Story Content:</label><br>
         <textarea id="content" name="content" rows="10" cols="50" required></textarea><br><br>
@@ -20,7 +20,7 @@
     </form>
 
     <script>
-        // Auto-fill today's date
+        // Auto-fill today's date (but allow edits)
         document.getElementById('date').value = new Date().toISOString().split('T')[0];
 
         async function submitStory() {
@@ -28,7 +28,7 @@
             const date = document.getElementById('date').value;
             const content = document.getElementById('content').value;
 
-            if (!title || !content) {
+            if (!title || !date || !content) {
                 alert("Please fill in all fields.");
                 return;
             }

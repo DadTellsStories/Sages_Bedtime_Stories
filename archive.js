@@ -1,18 +1,26 @@
 
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("Loading archive...");
+    const storyList = document.getElementById("story-list");
+    const debugOutput = document.createElement("div");
+    debugOutput.id = "debug-output";
+    document.body.appendChild(debugOutput);
+
+    function logDebug(message) {
+        debugOutput.innerHTML += `<p>${message}</p>`;
+    }
+
+    logDebug("Loading archive...");
+
     fetch("stories.json")
         .then(response => {
             if (!response.ok) throw new Error("Failed to fetch stories.json");
             return response.json();
         })
         .then(data => {
-            console.log("Stories loaded:", data);
-            const storyList = document.getElementById("story-list");
+            logDebug("Stories loaded successfully.");
 
             if (!data.stories || !Array.isArray(data.stories)) {
-                console.error("Invalid stories format:", data);
-                alert("Error: Invalid stories format.");
+                logDebug("Error: Invalid stories format.");
                 return;
             }
 
@@ -23,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     listItem.innerHTML = `<a href="#" onclick="loadStory('${story.title}', '${story.date}', \`${story.content.replace(/`/g, '\`')}\`)">${story.date}: ${story.title}</a>`;
                     storyList.appendChild(listItem);
                 } else {
-                    console.warn("Skipping invalid story entry:", story);
+                    logDebug(`Skipping invalid story entry: ${JSON.stringify(story)}`);
                 }
             });
 
@@ -32,8 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         })
         .catch(error => {
-            console.error("Error loading archive:", error);
-            alert("Error loading archive. Check console for details.");
+            logDebug(`Error loading archive: ${error.message}`);
         });
 });
 
