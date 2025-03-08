@@ -30,12 +30,17 @@ document.addEventListener("DOMContentLoaded", function() {
                 return content.split('\n').map(line => line.trim() ? `<p>${line}</p>` : '').join('');
             }
 
-            // Iterate over stories array in reverse to show the latest stories first as links
-            data.stories.slice().reverse().forEach(story => {
+            // Ensure links load properly by using dataset attributes and an event listener
+            data.stories.slice().reverse().forEach((story, index) => {
                 if (story.title && story.date && story.content) {
                     let listItem = document.createElement("li");
-                    listItem.innerHTML = `<a href="#" onclick="loadStory('${story.title}', '${story.date}', \`${formatContent(story.content).replace(/`/g, '\`')}\`)">${story.date}: ${story.title}</a>`;
+                    listItem.innerHTML = `<a href="#" id="story-${index}">${story.date}: ${story.title}</a>`;
                     storyList.appendChild(listItem);
+
+                    // Attach click event to each story link
+                    document.getElementById(`story-${index}`).addEventListener("click", () => {
+                        loadStory(story.title, story.date, formatContent(story.content));
+                    });
                 } else {
                     logDebug(`Skipping invalid story entry: ${JSON.stringify(story)}`);
                 }
@@ -50,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 });
 
+// Load story content when a link is clicked
 function loadStory(title, date, content) {
     document.body.innerHTML = `
         <h1>${title}</h1>
