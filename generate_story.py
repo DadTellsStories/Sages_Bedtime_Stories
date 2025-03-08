@@ -10,10 +10,10 @@ try:
 except FileNotFoundError:
     stories_data = {"stories": []}
 
-# OpenAI API setup
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# OpenAI API setup (new client-based method)
+client = openai.Client(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Generate a new story using GPT-3.5-turbo (updated API)
+# Generate a new story using GPT-3.5-turbo (updated API call)
 def generate_story():
     prompt = f"""
     Write a high-quality bedtime story featuring:
@@ -24,7 +24,7 @@ def generate_story():
     Ensure the tone is warm, magical, and imaginative.
     """
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a creative and imaginative storyteller."},
