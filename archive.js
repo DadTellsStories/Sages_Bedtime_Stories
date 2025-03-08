@@ -21,8 +21,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (!data.stories || !Array.isArray(data.stories)) {
                 logDebug("Error: Invalid stories format.");
+                logDebug("Raw data: " + JSON.stringify(data));
                 return;
             }
+
+            logDebug("Story array contents: " + JSON.stringify(data.stories));
 
             // Iterate over stories array in reverse to show the latest stories first
             data.stories.slice().reverse().forEach(story => {
