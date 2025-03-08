@@ -27,11 +27,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
             logDebug("Story array contents: " + JSON.stringify(data.stories));
 
-            // Iterate over stories array in reverse to show the latest stories first
+            // Iterate over stories array in reverse and display each story
             data.stories.slice().reverse().forEach(story => {
                 if (story.title && story.date && story.content) {
                     let listItem = document.createElement("li");
-                    listItem.innerHTML = `<a href="#" onclick="loadStory('${story.title}', '${story.date}', \`${story.content.replace(/`/g, '\`')}\`)">${story.date}: ${story.title}</a>`;
+                    listItem.innerHTML = `
+                        <h2>${story.title}</h2>
+                        <p><strong>Date:</strong> ${story.date}</p>
+                        <p>${story.content}</p>
+                        <hr>
+                    `;
                     storyList.appendChild(listItem);
                 } else {
                     logDebug(`Skipping invalid story entry: ${JSON.stringify(story)}`);
@@ -46,12 +51,3 @@ document.addEventListener("DOMContentLoaded", function() {
             logDebug(`Error loading archive: ${error.message}`);
         });
 });
-
-function loadStory(title, date, content) {
-    document.body.innerHTML = `
-        <h1>${title}</h1>
-        <p><strong>Date:</strong> ${date}</p>
-        <p>${content}</p>
-        <button onclick="window.location.href='archive.html'">Back to Archive</button>
-    `;
-}
