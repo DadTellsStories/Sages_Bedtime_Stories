@@ -27,14 +27,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
             logDebug("Story array contents: " + JSON.stringify(data.stories));
 
-            // Iterate over stories array in reverse and display each story
+            // Helper function to format content by converting newlines to <p> tags
+            function formatContent(content) {
+                return content.split('\n').map(line => line.trim() ? `<p>${line}</p>` : '').join('');
+            }
+
+            // Iterate over stories array in reverse and display each story with proper formatting
             data.stories.slice().reverse().forEach(story => {
                 if (story.title && story.date && story.content) {
                     let listItem = document.createElement("li");
                     listItem.innerHTML = `
                         <h2>${story.title}</h2>
                         <p><strong>Date:</strong> ${story.date}</p>
-                        <p>${story.content}</p>
+                        ${formatContent(story.content)}
                         <hr>
                     `;
                     storyList.appendChild(listItem);
