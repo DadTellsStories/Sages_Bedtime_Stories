@@ -25,24 +25,27 @@ document.addEventListener("DOMContentLoaded", function() {
                 return;
             }
 
-            // Helper function to format content by converting newlines to <p> tags
+            // Helper to format content with paragraph breaks
             function formatContent(content) {
                 return content.split('\n').map(line => line.trim() ? `<p>${line}</p>` : '').join('');
             }
 
-            // Ensure links load properly by using dataset attributes and an event listener
+            // Ensure each story is a clickable link
             data.stories.slice().reverse().forEach((story, index) => {
                 if (story.title && story.date && story.content) {
-                    let listItem = document.createElement("li");
-                    listItem.innerHTML = `<a href="#" id="story-${index}">${story.date}: ${story.title}</a>`;
-                    storyList.appendChild(listItem);
+                    logDebug(`Processing story: ${story.title}`);
+                    const listItem = document.createElement("li");
+                    const link = document.createElement("a");
+                    link.href = "#";
+                    link.textContent = `${story.date}: ${story.title}`;
 
-                    // Attach click event to each story link
-                    document.getElementById(`story-${index}`).addEventListener("click", () => {
-                        loadStory(story.title, story.date, formatContent(story.content));
-                    });
+                    // Set up the click event to load the story
+                    link.addEventListener("click", () => loadStory(story.title, story.date, formatContent(story.content)));
+
+                    listItem.appendChild(link);
+                    storyList.appendChild(listItem);
                 } else {
-                    logDebug(`Skipping invalid story entry: ${JSON.stringify(story)}`);
+                    logDebug(`Skipping invalid story: ${JSON.stringify(story)}`);
                 }
             });
 
@@ -55,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 });
 
-// Load story content when a link is clicked
+// Function to load a story when clicked
 function loadStory(title, date, content) {
     document.body.innerHTML = `
         <h1>${title}</h1>
