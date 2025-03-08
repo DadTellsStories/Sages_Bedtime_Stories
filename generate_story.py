@@ -14,7 +14,7 @@ except FileNotFoundError:
 # OpenAI API setup
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Generate a new story using OpenAI
+# Generate a new story using the updated OpenAI API
 def generate_story():
     prompt = f"""
     Write a high-quality bedtime story featuring:
@@ -25,7 +25,7 @@ def generate_story():
     Ensure the tone is warm, magical, and imaginative.
     """
 
-    response = openai.ChatCompletion.create(
+    response = openai.chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a creative and imaginative storyteller."},
