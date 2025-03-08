@@ -5,8 +5,13 @@ document.addEventListener("DOMContentLoaded", function() {
     debugOutput.id = "debug-output";
     document.body.appendChild(debugOutput);
 
+    // Toggle this to enable or disable debug messages (true = on, false = off)
+    const debugEnabled = false;
+
     function logDebug(message) {
-        debugOutput.innerHTML += `<p>${message}</p>`;
+        if (debugEnabled) {
+            debugOutput.innerHTML += `<p>${message}</p>`;
+        }
     }
 
     logDebug("Loading archive...");
