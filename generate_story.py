@@ -1,4 +1,3 @@
-
 import json
 import openai
 import os
@@ -14,19 +13,19 @@ except FileNotFoundError:
 # OpenAI API setup
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Generate a new story using the updated OpenAI API
+# Generate a new story using GPT-3.5-turbo
 def generate_story():
     prompt = f"""
     Write a high-quality bedtime story featuring:
-    - Main character: 4-year-old girl named Sage
-    - Supporting characters: Three Mastador dogs (Emika, Buster, Freya), white bicolored cat (Doobie), Sage's grey cat (Snowpaws), and family members (Aunty Cece, Uncle Froggy, Pops, Grayson, Jasper, Nina, Dez).
+    - Main character: 4-year-old girl named Sage.
+    - Supporting characters: Three Mastador dogs (Emika, Buster, Freya), white bicolored male cat (Doobie), Sage's grey cat (Snowpaws), and family members (Aunty Cece, Uncle Froggy, Dad, Grandpa Pops, Grayson, Jasper, Nina, Dez).
     - Themes: Mermaids and/or unicorns. Include occasional Minecraft adventures.
     - Lesson: Emphasize kindness and the importance of listening.
     Ensure the tone is warm, magical, and imaginative.
     """
 
-    response = openai.chat.completions.create(
-        model="gpt-4",
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a creative and imaginative storyteller."},
             {"role": "user", "content": prompt}
