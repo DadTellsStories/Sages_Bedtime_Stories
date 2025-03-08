@@ -18,10 +18,10 @@ def generate_story_and_title():
     prompt = f"""
     Write a high-quality bedtime story featuring:
     - Main character: 4-year-old girl named Sage.
-    - Supporting characters: Three Mastador dogs (Emika, Buster, Freya), white bicolored male cat (Doobie), Sage's grey cat (Snowpaws), and family members (Aunty Cece, Uncle Froggy, Dad, Pops, Nina (Sage's 12-year-old cousin), Dez (Sage's 8-year-old cousin), and Sage's two brothers: 7-year-old Grayson and 3-year-old Jasper).
+    - Supporting characters: Three Mastador dogs (Emika, Buster, Freya), white bicolored male cat (Doobie), Sage's grey female cat (Snowpaws),Aunty Cece’s Grey Fluffy female cat (Shadow), and family members (Aunty Cece, Uncle Froggy, Dad, Pops, Nina (Sage's 12-year-old cousin, a girl), Dez (Sage's 8-year-old cousin, a girl), and Sage's two brothers: 7-year-old Grayson and 3-year-old Jasper).
     - Themes: Mermaids and/or unicorns. Include occasional Minecraft adventures.
-    - Lesson: Emphasize kindness and the importance of listening.
-    Ensure the tone is warm, magical, and imaginative.
+    - Lessons: Choose from these important life lessons—kindness, listening, patience, courage, teamwork, honesty, responsibility, friendship, gratitude, and perseverance.
+Ensure the tone is warm, magical, and imaginative.
 
     First, provide only a creative, engaging story title (without including the date). Then, provide the complete story.
     Ensure the title reflects the unique adventure in a fun and descriptive way.
