@@ -25,23 +25,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 return;
             }
 
-            logDebug("Story array contents: " + JSON.stringify(data.stories));
-
             // Helper function to format content by converting newlines to <p> tags
             function formatContent(content) {
                 return content.split('\n').map(line => line.trim() ? `<p>${line}</p>` : '').join('');
             }
 
-            // Iterate over stories array in reverse and display each story with proper formatting
+            // Iterate over stories array in reverse to show the latest stories first as links
             data.stories.slice().reverse().forEach(story => {
                 if (story.title && story.date && story.content) {
                     let listItem = document.createElement("li");
-                    listItem.innerHTML = `
-                        <h2>${story.title}</h2>
-                        <p><strong>Date:</strong> ${story.date}</p>
-                        ${formatContent(story.content)}
-                        <hr>
-                    `;
+                    listItem.innerHTML = `<a href="#" onclick="loadStory('${story.title}', '${story.date}', \`${formatContent(story.content).replace(/`/g, '\`')}\`)">${story.date}: ${story.title}</a>`;
                     storyList.appendChild(listItem);
                 } else {
                     logDebug(`Skipping invalid story entry: ${JSON.stringify(story)}`);
@@ -56,3 +49,12 @@ document.addEventListener("DOMContentLoaded", function() {
             logDebug(`Error loading archive: ${error.message}`);
         });
 });
+
+function loadStory(title, date, content) {
+    document.body.innerHTML = `
+        <h1>${title}</h1>
+        <p><strong>Date:</strong> ${date}</p>
+        ${content}
+        <button onclick="window.location.href='archive.html'">Back to Archive</button>
+    `;
+}
