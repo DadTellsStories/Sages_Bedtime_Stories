@@ -13,7 +13,7 @@ except FileNotFoundError:
 # OpenAI API setup
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Generate a new story using GPT-3.5-turbo
+# Generate a new story using GPT-3.5-turbo (updated API)
 def generate_story():
     prompt = f"""
     Write a high-quality bedtime story featuring:
