@@ -1,3 +1,5 @@
+console.log("✅ script.js is loaded!");
+document.getElementById("debug-output").innerHTML = "<p>✅ script.js is connected!</p>";
 function loadStory() {
     fetch("stories.json")
         .then(response => response.json())
