@@ -27,6 +27,8 @@
         document.getElementById("date").value = new Date().toISOString().split('T')[0];
 
         async function submitStory() {
+document.getElementById("status").innerHTML = "✅ Button Clicked!";
+            
             const title = document.getElementById('title').value;
             const date = document.getElementById('date').value;
             const content = document.getElementById('content').value;
