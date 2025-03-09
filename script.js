@@ -1,5 +1,9 @@
 console.log("✅ script.js is loaded!");
 document.getElementById("debug-output").innerHTML = "<p>✅ script.js is connected!</p>";
+function toggleDebug() {
+    const debugSection = document.getElementById("debug-output");
+    debugSection.style.display = (debugSection.style.display === "none") ? "block" : "none";
+}
 function loadStory() {
     fetch("stories.json")
         .then(response => response.json())
