@@ -1,3 +1,8 @@
+// Ensure debug info is hidden on page load
+document.addEventListener("DOMContentLoaded", () => {
+    const debugSection = document.getElementById("debug-output");
+    if (debugSection) debugSection.style.display = "none";
+});
 console.log("✅ script.js is loaded!");
 document.getElementById("debug-output").innerHTML = "<p>✅ script.js is connected!</p>";
 function toggleDebug() {
