@@ -24,34 +24,4 @@
     <div id="status"></div>
 
     <script>
-        document.getElementById("date").value = new Date().toISOString().split('T')[0];
-
-        async function submitStory() {
-document.getElementById("status").innerHTML = "✅ Button Clicked!";
-            
-            const title = document.getElementById('title').value;
-            const date = document.getElementById('date').value;
-            const content = document.getElementById('content').value;
-
-            if (!title || !date || !content) {
-                alert("Please fill in all fields.");
-                return;
-            }
-
-            try {
-                // Send story data to GitHub Action via repository dispatch event
-                const response = await fetch("https://api.github.com/repos/DadTellsStories/Sages_Bedtime_Stories/dispatches", {
-                    method: "POST",
-                    headers: {
-                        "Accept": "application/vnd.github.everest-preview+json",
-                        "Authorization": "Bearer YOUR_PERSONAL_ACCESS_TOKEN_HERE",
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        event_type: "add_story",
-                        client_payload: { title, date, content }
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error(`GitHub Action
+       window.onload = function() { document.getElementById("status").innerHTML = "✅ Page Loaded!"; async function submitStory() { document.getElementById("status").innerHTML = "✅ Button Clicked!"; const title = document.getElementById('title').value; const date = document.getElementById('date').value; const content = document.getElementById('content').value; if (!title || !date || !content) { alert("Please fill in all fields."); return; } document.getElementById("status").innerHTML += "<br>Submitting story..."; try { const response = await fetch("https://api.github.com/repos/DadTellsStories/Sages_Bedtime_Stories/dispatches", { method: "POST", headers: { "Accept": "application/vnd.github.everest-preview+json", "Authorization": "Bearer YOUR_PERSONAL_ACCESS_TOKEN_HERE", "Content-Type": "application/json" }, body: JSON.stringify({ event_type: "add_story", client_payload: { title, date, content } }) }); if (!response.ok) { throw new Error(`GitHub Action trigger failed: ${response.statusText}`); } document.getElementById("status").innerHTML += "<br>✅ Story successfully sent to GitHub!"; document.getElementById("storyForm").reset(); document.getElementById("date").value = new Date().toISOString().split('T')[0]; } catch (error) { console.error("Error:", error); document.getElementById("status").innerHTML += `<br>❌ Error: ${error.message}`; } } // Make function globally accessible window.submitStory = submitStory; }; 
