@@ -7,12 +7,17 @@ function loadStory() {
             const today = new Date().toISOString().split('T')[0];
             const debugOutput = document.getElementById("debug-output");
 
-            // Display today's date and total stories on the page
+            // Debug Output
             debugOutput.innerHTML = `<p><strong>Today's Date:</strong> ${today}</p>`;
             debugOutput.innerHTML += `<p><strong>Total Stories Loaded:</strong> ${data.stories.length}</p>`;
 
+            // Display all available story dates
+            data.stories.forEach((story, index) => {
+                debugOutput.innerHTML += `<p>Story ${index + 1} Date: ${story.date}</p>`;
+            });
+
             // Find today's story
-            const story = data.stories.find(story => story.date === today);
+            const story = data.stories.find(story => story.date.trim() === today);
 
             if (story) {
                 debugOutput.innerHTML += `<p><strong>Story Found:</strong> Yes</p>`;
