@@ -1,75 +1,105 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Story Input Page</title>
+    <meta charset="UTF-8">
+    <title>Add a New Story</title>
 </head>
+
 <body>
     <h1>Add a New Story</h1>
     <form id="storyForm">
-        <label for="title">Story Title:</label><br>
-        <input type="text" id="title" name="title" required><br><br>
+        <label for="title">Title:</label>
+        <input type="text" id="title" required><br><br>
 
-        <label for="date">Story Date:</label><br>
-        <input type="text" id="date" name="date"><br><br>
+        <label for="date">Date:</label>
+        <input type="date" id="date" required><br><br>
 
         <label for="content">Story Content:</label><br>
-        <textarea id="content" name="content" rows="10" cols="50" required></textarea><br><br>
+        <textarea id="content" rows="10" cols="50" required></textarea><br><br>
 
-        <button type="button" onclick="submitStory()">Submit Story</button>
+        <button type="button" onclick="submitStory()">Add Story</button>
     </form>
 
+    <div id="status"></div>
+
     <script>
-        // Auto-fill today's date (but allow edits)
-        document.getElementById('date').value = new Date().toISOString().split('T')[0];
+        // Set your GitHub details here
+        const owner = "DadTellsStories";
+        const repo = "Sages_Bedtime_Stories";
+        const branch = "main";
+        const token = "YOUR_PERSONAL_ACCESS_TOKEN_HERE"; // Replace this with your GitHub PAT
 
+        // Autofill the current date
+        document.getElementById("date").value = new Date().toISOString().split('T')[0];
+
+        // Function to submit and upload a new story
         async function submitStory() {
-    const title = document.getElementById('title').value;
-    const date = document.getElementById('date').value;
-    const content = document.getElementById('content').value;
+            const title = document.getElementById('title').value;
+            const date = document.getElementById('date').value;
+            const content = document.getElementById('content').value;
 
-    if (!title || !date || !content) {
-        alert("Please fill in all fields.");
-        return;
-    }
+            if (!title || !date || !content) {
+                alert("Please fill in all fields.");
+                return;
+            }
 
-    try {
-        // Fetch the latest version of stories.json
-        const response = await fetch('stories.json');
-        const data = await response.json();
+            try {
+                // Step 1: Fetch the latest stories.json from GitHub
+                const storiesResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/stories.json`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
 
-        // Ensure 'stories' exists and is an array
-        if (!Array.isArray(data.stories)) {
-            data.stories = [];
-        }
+                if (!storiesResponse.ok) {
+                    throw new Error(`Failed to fetch stories.json: ${storiesResponse.statusText}`);
+                }
 
-        // Add new story to the array
-        data.stories.push({ title, date, content });
+                const storiesData = await storiesResponse.json();
+                const currentStories = JSON.parse(atob(storiesData.content));
 
-        // Save updated JSON locally
-        const jsonData = JSON.stringify(data, null, 4);
-        download(jsonData, 'stories.json', 'application/json');
+                // Ensure stories array exists
+                if (!Array.isArray(currentStories.stories)) {
+                    currentStories.stories = [];
+                }
 
-        alert('Story added successfully! You can add another or upload the updated stories.json.');
-        
-        // Clear form for next entry
-        document.getElementById('storyForm').reset();
-        document.getElementById('date').value = new Date().toISOString().split('T')[0];
+                // Step 2: Append the new story
+                currentStories.stories.push({ title, date, content });
 
-    } catch (error) {
-        console.error("Error updating stories.json:", error);
-        alert('Failed to add story.');
-    }
-}
+                // Step 3: Prepare updated content for upload
+                const updatedStories = JSON.stringify(currentStories, null, 4);
+                const encodedContent = btoa(unescape(encodeURIComponent(updatedStories)));
 
-        // Helper function to download updated JSON
-        function download(content, fileName, contentType) {
-            const a = document.createElement("a");
-            const file = new Blob([content], { type: contentType });
-            a.href = URL.createObjectURL(file);
-            a.download = fileName;
-            a.click();
+                // Step 4: Upload the updated stories.json to GitHub
+                const updateResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/stories.json`, {
+                    method: "PUT",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: `Add new story: ${title}`,
+                        content: encodedContent,
+                        sha: storiesData.sha,
+                        branch: branch
+                    })
+                });
+
+                if (!updateResponse.ok) {
+                    throw new Error(`Failed to update stories.json: ${updateResponse.statusText}`);
+                }
+
+                // Success message
+                document.getElementById("status").innerText = "Story successfully added and uploaded to GitHub!";
+                document.getElementById("storyForm").reset();
+                document.getElementById("date").value = new Date().toISOString().split('T')[0];
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error updating the story. Check the console for details.");
+            }
         }
     </script>
+
 </body>
+
 </html>
