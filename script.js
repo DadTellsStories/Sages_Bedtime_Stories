@@ -4,7 +4,7 @@ function loadStory() {
     fetch("stories.json")
         .then(response => response.json())
         .then(data => {
-            const today = new Date().toISOString().split('T')[0];
+            const today = new Date().toLocaleDateString('en-CA');;
             const debugOutput = document.getElementById("debug-output");
 
             // Debug Output
