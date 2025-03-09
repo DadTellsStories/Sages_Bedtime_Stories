@@ -24,32 +24,43 @@
         document.getElementById('date').value = new Date().toISOString().split('T')[0];
 
         async function submitStory() {
-            const title = document.getElementById('title').value;
-            const date = document.getElementById('date').value;
-            const content = document.getElementById('content').value;
+    const title = document.getElementById('title').value;
+    const date = document.getElementById('date').value;
+    const content = document.getElementById('content').value;
 
-            if (!title || !date || !content) {
-                alert("Please fill in all fields.");
-                return;
-            }
+    if (!title || !date || !content) {
+        alert("Please fill in all fields.");
+        return;
+    }
 
-            try {
-                const response = await fetch('stories.json');
-                const data = await response.json();
-                
-                // Add new story to the array
-                data.stories.push({ title, date, content });
+    try {
+        // Fetch the latest version of stories.json
+        const response = await fetch('stories.json');
+        const data = await response.json();
 
-                // Save updated JSON (for local testing)
-                const jsonData = JSON.stringify(data, null, 4);
-                download(jsonData, 'stories.json', 'application/json');
-                
-                alert('Story added successfully!');
-            } catch (error) {
-                console.error("Error updating stories.json:", error);
-                alert('Failed to add story.');
-            }
+        // Ensure 'stories' exists and is an array
+        if (!Array.isArray(data.stories)) {
+            data.stories = [];
         }
+
+        // Add new story to the array
+        data.stories.push({ title, date, content });
+
+        // Save updated JSON locally
+        const jsonData = JSON.stringify(data, null, 4);
+        download(jsonData, 'stories.json', 'application/json');
+
+        alert('Story added successfully! You can add another or upload the updated stories.json.');
+        
+        // Clear form for next entry
+        document.getElementById('storyForm').reset();
+        document.getElementById('date').value = new Date().toISOString().split('T')[0];
+
+    } catch (error) {
+        console.error("Error updating stories.json:", error);
+        alert('Failed to add story.');
+    }
+}
 
         // Helper function to download updated JSON
         function download(content, fileName, contentType) {
