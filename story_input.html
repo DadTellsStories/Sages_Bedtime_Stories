@@ -3,22 +3,61 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>JavaScript Test</title>
+    <title>Add a New Story</title>
 </head>
 
 <body>
-    <h1>JavaScript Execution Test</h1>
+    <h1>Add a New Story (Debug Mode)</h1>
 
-    <button id="testButton" onclick="showMessage()">Click Me</button>
+    <form id="storyForm">
+        <label for="title">Title:</label>
+        <input type="text" id="title" required><br><br>
 
-    <div id="output" style="margin-top: 20px; border: 1px solid black; padding: 10px;">
-        Output:
+        <label for="date">Date:</label>
+        <input type="date" id="date" required><br><br>
+
+        <label for="content">Story Content:</label><br>
+        <textarea id="content" rows="10" cols="50" required></textarea><br><br>
+
+        <button id="addStoryButton" type="button" onclick="submitStory()">Add Story</button>
+    </form>
+
+    <div id="status" style="margin-top: 20px; border: 1px solid black; padding: 10px;">
+        Debug Output:
     </div>
 
     <script>
-        function showMessage() {
-            document.getElementById("output").innerHTML += "<br>✅ Button Clicked!";
-        }
+        // Autofill the current date
+        document.getElementById("date").value = new Date().toISOString().split('T')[0];
+
+        // Ensure script is executing correctly
+        window.onload = function() {
+            document.getElementById("status").innerHTML += "<br>✅ Page Loaded!";
+
+            // Ensure the button is recognized
+            const button = document.getElementById("addStoryButton");
+            if (button) {
+                document.getElementById("status").innerHTML += "<br>✅ Button Found!";
+            } else {
+                document.getElementById("status").innerHTML += "<br>❌ Button Not Found!";
+            }
+
+            // Define the story submission function
+            window.submitStory = function () {
+                document.getElementById("status").innerHTML += "<br>✅ Button Clicked!";
+
+                const title = document.getElementById('title').value;
+                const date = document.getElementById('date').value;
+                const content = document.getElementById('content').value;
+
+                if (!title || !date || !content) {
+                    alert("Please fill in all fields.");
+                    return;
+                }
+
+                document.getElementById("status").innerHTML += `<br>Submitting story: ${title}`;
+            };
+        };
     </script>
 
 </body>
