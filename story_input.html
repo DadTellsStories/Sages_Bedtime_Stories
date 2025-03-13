@@ -1,14 +1,26 @@
-Story Input Debug 
+<!DOCTYPE html>
+<html lang="en">
 
-Add a New Story (Debug Mode)
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript Test</title>
+</head>
 
-Title: 
+<body>
+    <h1>JavaScript Execution Test</h1>
 
-Add Story 
+    <button id="testButton" onclick="showMessage()">Click Me</button>
 
-Debug Output: 
+    <div id="output" style="margin-top: 20px; border: 1px solid black; padding: 10px;">
+        Output:
+    </div>
 
-// Ensure script loads correctly window.onload = function() { document.getElementById("status").innerHTML += "<br>✅ Page Loaded!"; // Button click test window.submitStory = function() { document.getElementById("status").innerHTML += "<br>✅ Button Clicked!"; }; // Confirm button is found and active const button = document.getElementById("addStoryButton"); if (button) { document.getElementById("status").innerHTML += "<br>✅ Button Found!"; } else { document.getElementById("status").innerHTML += "<br>❌ Button Not Found!"; } }; 
-</script>
+    <script>
+        function showMessage() {
+            document.getElementById("output").innerHTML += "<br>✅ Button Clicked!";
+        }
+    </script>
+
 </body>
+
 </html>
